@@ -13,7 +13,7 @@ DIR_SOURCE=./src
 DIR_DIST=./dist
 BINARY_NAME=$(DIR_DIST)/bin/$(PROJECT_NAME)
 BUILD_DATE=$(shell date +%Y%m%d.%H%M%S)
-BUILD_VERSION=$(shell git rev-parse --short HEAD)
+BUILD_VERSION ?= $(shell git rev-parse --short HEAD)-SNAPSHOT
 LDFLAGS := 
 LDFLAGS := $(LDFLAGS) -X main.ProjectName=$(PROJECT_NAME)
 LDFLAGS := $(LDFLAGS) -X main.BuildDate=$(BUILD_DATE)
