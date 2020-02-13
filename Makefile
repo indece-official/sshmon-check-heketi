@@ -1,5 +1,7 @@
 # Project config
 PROJECT_NAME=sshmon_check_heketi
+BUILD_DATE=$(shell date +%Y%m%d.%H%M%S)
+BUILD_VERSION ?= $(shell git rev-parse --short HEAD)-SNAPSHOT
 
 # Go parameters
 GOCMD=go
@@ -11,9 +13,8 @@ GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 DIR_SOURCE=./src
 DIR_DIST=./dist
-BINARY_NAME=$(DIR_DIST)/bin/$(PROJECT_NAME)
-BUILD_DATE=$(shell date +%Y%m%d.%H%M%S)
-BUILD_VERSION ?= $(shell git rev-parse --short HEAD)-SNAPSHOT
+BINARY_NAME_LINUX64=$(PROJECT_NAME)-$(BUILD_VERSION)-linux-amd64
+SHA256_NAME_LINUX64=$(PROJECT_NAME)-$(BUILD_VERSION)-linux-amd64.sha256
 LDFLAGS := 
 LDFLAGS := $(LDFLAGS) -X main.ProjectName=$(PROJECT_NAME)
 LDFLAGS := $(LDFLAGS) -X main.BuildDate=$(BUILD_DATE)
@@ -23,7 +24,8 @@ all: test build
 
 build:
 	mkdir -p $(DIR_DIST)/bin
-	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINARY_NAME) -tags=prod -v $(DIR_SOURCE)/main.go
+	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(DIR_DIST)/bin/$(BINARY_NAME_LINUX64) -tags=prod -v $(DIR_SOURCE)/main.go
+	(cd $(DIR_DIST)/bin && sha256sum $(BINARY_NAME_LINUX64) > $(SHA256_NAME_LINUX64))
 
 test:
 	mkdir -p $(DIR_DIST)
