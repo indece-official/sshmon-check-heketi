@@ -3,6 +3,7 @@ Nagios/Checkmk-compatible SSHMon-check for Heketi-Clusters
 
 ## Installation
 * Download [latest Release](https://github.com/indece-official/sshmon-check-heketi/releases/latest)
+* Move binary to `/usr/local/bin/sshmon_check_heketi`
 
 ## Usage
 ```
@@ -10,7 +11,7 @@ $> sshmon_check_heketi -host 10.2.0.2 -user <youruser> -key <yourkey>
 ```
 
 ```
-Usage of ./dist/bin/sshmon_check_heketi:
+Usage of sshmon_check_heketi:
   -dns string
         Use other dns server
   -host string
@@ -33,8 +34,14 @@ Output:
 ```
 
 ## Development
-### Build the binary
+### Snapshot build
 
 ```
 $> make --always-make
+```
+
+### Release build
+
+```
+$> BUILD_VERSION=1.0.0 make --always-make
 ```
